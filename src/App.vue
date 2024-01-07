@@ -4,6 +4,7 @@
     <h1 class="mb-4">Weather App</h1>
     <CitySearch @search="handleSearch" @liveSearch="handleLiveSearch" />
     <CityWeather v-if="currentWeather" :weather="currentWeather" @addToFavorites="addToFavorites" />
+    <HourlyForecast v-if="forecast_hourly" :forecast_hourly="forecast_hourly" />
     <WeatherForecast v-if="forecast" :forecast="forecast" />
     <FavoriteCities :favorites="favorites" />
   </div>
@@ -13,6 +14,7 @@
 import axios from 'axios';
 import CitySearch from './components/CitySearch.vue';
 import CityWeather from './components/CityWeather.vue';
+import HourlyForecast from './components/HourlyForecast.vue';
 import WeatherForecast from './components/WeatherForecast.vue';
 import FavoriteCities from './components/FavoriteCities.vue';
 
@@ -20,6 +22,7 @@ export default {
   components: {
     CitySearch,
     CityWeather,
+    HourlyForecast,
     WeatherForecast,
     FavoriteCities,
   },
@@ -28,6 +31,7 @@ export default {
       cityName: '',
       favorites: [],
       currentWeather: null,
+      forecast_hourly: null,
       forecast: null,
     };
   },
@@ -49,6 +53,15 @@ export default {
           if (result) {
             const { latitude, longitude } = result;
 
+            axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m`)
+              .then(weatherResponse_hourly => {
+                this.forecast_hourly = weatherResponse_hourly.data.hourly;
+                console.log(this.forecast_hourly )
+              })
+              .catch(error => {
+                console.error('Error fetching weather data of hourly:', error);
+              });
+
             axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=apparent_temperature_max&forecast_days=5`)
               .then(weatherResponse => {
                 this.currentWeather = {
@@ -59,8 +72,10 @@ export default {
                 this.forecast = weatherResponse.data.daily;
               })
               .catch(error => {
-                console.error('Error fetching weather data:', error);
+                console.error('Error fetching weather data of 5 days:', error);
               });
+
+
           } else {
             console.error('City not found');
           }
