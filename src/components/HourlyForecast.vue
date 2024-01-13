@@ -1,110 +1,109 @@
 <template>
-    <div>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <!-- <div class="carousel slide multi-item-carousel" id="theCarousel">
-              <div class="carousel-inner">
-                <div class="item" v-for="(time, index) in forecast_hourly.time" :key="index">
-                  <div class="col-xs-4">
-                    <p>{{ formatTime(time) }}</p>
-                  </div>
+  <div>
+    <div class="container hourly-container py-3">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="slider-container">
+            <div class="slider" ref="slider">
+              <div v-for="(time, index) in forecast_hourly.time" :key="index" class="slider-item">
+                <div class="card col-xs-2 me-2 p-4">
+                  <p>{{ getFloorOrCeil(forecast_hourly.temperature_2m[index]) }}°C</p>
+                  <p>{{ formatTime(time) }}</p>
                 </div>
               </div>
-            </div> -->
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
-              <div class="carousel-inner">
-                <div v-for="(time, index) in forecast_hourly.time" :key="index" :class="{ 'forecast_hourly': true, 'active': index === 0 }">
-                  <!-- <img :src="item.image" class="d-block w-100" :alt="'Item ' + (index + 1)"> -->
-                  <div class="card col-xs-4 me-2 p-4">
-                    <p>{{ getFloorOrCeil(forecast_hourly.temperature_2m[index]) }}°C</p>
-                    <p >{{ formatTime(time) }}</p>
-                  </div>
-                </div>
-              </div>
-              <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only"></span>
-              </a>
-              <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only"></span>
-              </a>
             </div>
+            <button @click="prevSlide">Previous</button>
+            <button @click="nextSlide">Next</button>
           </div>
         </div>
-        
-        <!-- <div v-for="(time, index) in forecast_hourly.time" :key="index" class="hourly-item">
-          <p class="hour">{{ time }}</p>
-          <p class="temperature">{{ forecast_hourly.temperature_2m[index] }}°C</p>
-        </div> -->
       </div>
     </div>
-  </template>
-  
-  <script>
-  import {floorOrCeil} from '../assets/js/main.js';
-  export default {
-    props: ['forecast_hourly'],
-    methods: {
-      formatTime(dateString) {
-        const date = new Date(dateString);
-        const hours = date.getHours();
-        // const minutes = date.getMinutes();
+  </div>
+</template>
 
-        let ampm = 'am';
+<script>
+import { floorOrCeil } from '../assets/js/main.js';
 
-        if (hours >= 12) {
-          ampm = 'pm';
-        }
+export default {
+  props: ['forecast_hourly'],
+  methods: {
+    formatTime(dateString) {
+      const date = new Date(dateString);
+      const hours = date.getHours();
+      let ampm = 'am';
 
-        const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-        // const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-
-        const formattedTime = `${formattedHours} ${ampm}`;
-        return formattedTime;
-      },
-      getFloorOrCeil(number){
-        return floorOrCeil(number);
+      if (hours >= 12) {
+        ampm = 'pm';
       }
-      
-    }
-  };
-  </script>
-  
-  <style scoped>
-  .hourly-card {
-    display: flex;
-    overflow-x: auto; /* Enable horizontal scrolling if the content overflows */
-  }
-  
-  .hourly-item {
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin-right: 10px;
-  }
 
-  #myCarousel {
-    margin: auto;
-    overflow: hidden;
-    max-width: 100%; 
-  }
+      const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+      const formattedTime = `${formattedHours} ${ampm}`;
+      return formattedTime;
+    },
+    getFloorOrCeil(number) {
+      return floorOrCeil(number);
+    },
+    prevSlide() {
+      if (this.currentSlide > 0) {
+        this.currentSlide--;
+        this.updateSliderPosition();
+      }
+    },
+    nextSlide() {
+      if (this.currentSlide < this.totalSlides - 1) {
+        this.currentSlide++;
+        this.updateSliderPosition();
+      }
+    },
+    updateSliderPosition() {
+      const newPosition = -this.currentSlide * (this.slideWidth + this.slideMargin);
+      this.$refs.slider.style.transform = `translateX(${newPosition}px)`;
+    },
+  },
+  data() {
+    return {
+      currentSlide: 0,
+      totalSlides: 0,
+      slideWidth: 0,
+      slideMargin: 10, // Adjust this value based on desired margin between cards
+    };
+  },
+  mounted() {
+    this.totalSlides = this.forecast_hourly.time.length;
+    this.slideWidth = this.$refs.slider.clientWidth / 4; // Adjust the divisor based on the number of cards per slide
+  },
+};
+</script>
 
-  /* Custom styles for the carousel */
-  .carousel-inner {
-    display: flex;
-    flex-wrap: nowrap;
-  }
+<style scoped>
+.slider-container {
+  position: relative;
+  overflow: hidden;
+}
 
-  .carousel-item {
-    width: 100%; 
-    margin-right: 10px;
-  }
-    
-  .time {
-    font-size: 18px;
-    text-align: center;
-    margin-top: 20px;
-  }
-  </style>
-  
+.slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slider-item {
+  flex: 0 0 calc(10% - 10px); /* Adjust the percentage based on the number of cards per slide and the margin */
+  margin-right: 10px; /* Adjust the margin based on desired spacing */
+}
+
+button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px;
+  cursor: pointer;
+}
+
+button:first-child {
+  left: 10px;
+}
+
+button:last-child {
+  right: 10px;
+}
+</style>

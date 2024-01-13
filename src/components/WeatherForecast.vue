@@ -2,7 +2,9 @@
 <template>
   <div class="container mt-2">
     <div class="row w-100">
-      <h2>5-Day Forecast</h2>
+      <div class="row card card-rounded-5 pt-2 bg-light">
+        <h2>5-Day Forecast</h2>
+      </div>
       <div class="row">
         <div class="col-md-4 m-1" v-for="(time, index) in forecast.time" :key="index">
           <div class="card p-4">

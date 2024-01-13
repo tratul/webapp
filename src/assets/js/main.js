@@ -1,4 +1,5 @@
 export const floorOrCeil = (number, threshold = 0.5) => {
+  if (typeof number === 'number') {
     const differenceToFloor = number - Math.floor(number);
     const differenceToCeil = Math.ceil(number) - number;
 
@@ -10,6 +11,11 @@ export const floorOrCeil = (number, threshold = 0.5) => {
       // If neither floor nor ceiling is close, you can choose one based on your logic
       return Math.round(number);
     }
+  }
+  else{
+    return 0;
+  }
+    
 };
 
 export const weatherDescription = (weatherCode) => {

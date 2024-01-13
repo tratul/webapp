@@ -132,6 +132,7 @@ export default {
                 this.forecast_hourly = weatherResponse_hourly.data.hourly;
                 this.currentWeather = {
                   city: result.name,
+                  country: result.country,
                   temperature: weatherResponse_hourly.data.hourly.temperature_2m[0], //  current temperature
                   apparent_temperature: weatherResponse_hourly.data.hourly.apparent_temperature[0],
                   weather_code: weatherResponse_hourly.data.hourly.weather_code[0],   
