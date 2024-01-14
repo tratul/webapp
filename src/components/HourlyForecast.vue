@@ -1,21 +1,27 @@
 <template>
-  <div>
-    <div class="container hourly-container py-3">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="slider-container">
-            <div class="slider" ref="slider">
-              <div v-for="(time, index) in forecast_hourly.time" :key="index" class="slider-item">
-                <div class="card col-xs-2 me-2 p-4">
-                  <p>{{ getFloorOrCeil(forecast_hourly.temperature_2m[index]) }}°C</p>
-                  <p>{{ formatTime(time) }}</p>
-                </div>
+  <div class="container hourly-container py-3">
+    <div class="row">
+      <div class="col-md-1 bg-white d-flex flex-column justify-content-center">
+      <button class="bg-transparent border-0"  @click="prevSlide">
+        <font-awesome-icon class="custom-icon" :icon="['fas', 'fa-less-than']" />
+      </button>
+      </div>
+      <div class="col-md-10 my-2">
+        <div class="slider-container">
+          <div class="slider" ref="slider">
+            <div v-for="(time, index) in forecast_hourly.time" :key="index" class="slider-item">
+              <div class="card col-xs-2 me-2 p-4">
+                <p>{{ getFloorOrCeil(forecast_hourly.temperature_2m[index]) }}°C</p>
+                <p>{{ formatTime(time) }}</p>
               </div>
             </div>
-            <button @click="prevSlide">Previous</button>
-            <button @click="nextSlide">Next</button>
           </div>
         </div>
+      </div>
+      <div class="col-md-1 bg-white d-flex flex-column justify-content-center">
+        <button class="bg-transparent border-0" @click="nextSlide">
+          <font-awesome-icon class="custom-icon" :icon="['fas', 'fa-greater-than']" />
+        </button>
       </div>
     </div>
   </div>
@@ -23,8 +29,23 @@
 
 <script>
 import { floorOrCeil } from '../assets/js/main.js';
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+/* import specific icons */
+import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons'
+
+/* add icons to the library */
+library.add(faGreaterThan, faLessThan)
+// library.add(lessThan)
 
 export default {
+  components: {
+    FontAwesomeIcon,
+  },
   props: ['forecast_hourly'],
   methods: {
     formatTime(dateString) {
@@ -87,16 +108,14 @@ export default {
 }
 
 .slider-item {
-  flex: 0 0 calc(10% - 10px); /* Adjust the percentage based on the number of cards per slide and the margin */
+  flex: 0 0 calc(15% - 10px); /* Adjust the percentage based on the number of cards per slide and the margin */
   margin-right: 10px; /* Adjust the margin based on desired spacing */
 }
 
-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 10px;
-  cursor: pointer;
+.custom-icon {
+  font-size: 4em;
+  /* color: red; */
+  /* Add any other styles you want */
 }
 
 button:first-child {

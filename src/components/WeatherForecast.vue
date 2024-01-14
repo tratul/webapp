@@ -1,33 +1,21 @@
 <!-- src/components/WeatherForecast.vue -->
 <template>
   <div class="container mt-2">
-    <div class="row w-100">
-      <div class="row card card-rounded-5 pt-2 bg-light">
-        <h2>5-Day Forecast</h2>
-      </div>
-      <div class="row">
-        <div class="col-md-4 m-1" v-for="(time, index) in forecast.time" :key="index">
-          <div class="card p-4">
-            <p>{{ dateOf(time) }}</p>
-            <p class="text-center">{{ getWeatherDescription(forecast.weather_code[index]) }}</p>
-            <p>{{ getFloorOrCeil(forecast.apparent_temperature_min[index])}}°C/
-            {{ getFloorOrCeil(forecast.apparent_temperature_max[index])}}°C</p>
-          </div>
+    <div class="row card card-rounded-5 pt-2 bg-light">
+      <h2>5-Day Forecast</h2>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-4" v-for="(time, index) in forecast.time" :key="index">
+        <div class="card p-4">
+          <p>{{ dateOf(time) }}</p>
+          <p class="text-center">{{ getWeatherDescription(forecast.weather_code[index]) }}</p>
+          <p>{{ getFloorOrCeil(forecast.apparent_temperature_min[index])}}°C/
+          {{ getFloorOrCeil(forecast.apparent_temperature_max[index])}}°C</p>
         </div>
       </div>
     </div>
   </div>
-    <!-- <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">5-Day Forecast</h2>
-        <ul class="list-group">
-          <li class="list-group-item" v-for="(time, index) in forecast.time" :key="index">
-            ({{ dateOf(time) }}){{ forecast.apparent_temperature_max[index]}}°C
-          </li>
-        </ul>
-      </div>
-    </div> -->
-  </template>
+</template>
   
   <script>
   import {floorOrCeil, weatherDescription } from '../assets/js/main.js';

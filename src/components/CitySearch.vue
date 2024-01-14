@@ -1,59 +1,36 @@
 <!-- src/components/CitySearch.vue -->
 <template>
-    <!-- <div class="form-group">
-      <label for="cityInput">Search for a city:</label>
-      <div class="input-group">
-        <input id="cityInput" class="form-control" v-model="cityName" @input="liveSearch">
-        <div class="input-group-append">
-          <button class="btn btn-primary" @click="searchCity">Search</button>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
-      <div class="input-group">
-        <input type="search" placeholder="What're you searching for?" aria-describedby="button-addon1" class="form-control border-0 bg-light" v-model="cityName" @input="liveSearch">
-        <div class="input-group-append">
-          <button id="button-addon1" type="submit" class="btn btn-link text-primary" @click="searchCity"><i class="fa fa-search"></i></button>
-        </div>
-      </div>
-    </div> -->
-
     <div class="p-1 bg-light rounded rounded-pill shadow-sm my-4">
-      <!-- <label for="cityInput">Search for a city:</label> -->
       <div class="input-group">
         <input id="cityInput" class="form-control border-0 bg-light" placeholder="Please Inter The City Name" v-model="inputValue" @input="liveSearch" />
+        <!-- <button class="bg-transparent border-0 me-2" @click="currentLocation()">
+          <font-awesome-icon :icon="['fas', 'fa-location-dot']" />
+        </button> -->
         <div v-if="showPopup" class="popup-results mt-5">
-          <div v-for="result in searchResults" :key="result.id" @click="selectCity(result)">
+          <div class="p-3" v-for="result in searchResults" :key="result.id" @click="selectCity(result)">
             {{ result.name }}, {{ result.country }}
-            <button class="btn btn-primary btn-sm" @click="addToFavorites(result)">Add to Favorites</button>
+            <button class="btn btn-outline-primary btn-sm ms-3" @click="addToFavorites(result)">Add to Favorites</button>
           </div>
-          <p>Favourite list</p>
-          <div v-for="favorite in favorites" :key="favorite" @click="selectCity(favorite)">
+          <div class="row card border-1 p-2 header bg-secondary text-white">
+            <h2>Favourite list</h2>
+          </div>
+          <div class="p-3" v-for="favorite in favorites" :key="favorite" @click="selectCity(favorite)">
             {{ favorite.name }}, {{ favorite.country }}
-            <button class="btn btn-danger btn-sm" @click="removeFavorite(favorite)">Remove From Favorites</button>
+            <button class="btn btn-outline-danger btn-sm ms-3" @click="removeFavorite(favorite)">Remove From Favorites</button>
           </div>
         </div>
       </div>
-      <!-- <button @click="searchCity">Search</button> -->
     </div>
   </template>
   
-  <script>
+<script>
+  // import { library } from '@fortawesome/fontawesome-svg-core'
+  // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+  // import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
+  // library.add(faLocationDot)
   export default {
-    // props: [],
-    // data() {
-    //   return {
-    //     cityName: '',
-    //   };
-    // },
-    // methods: {
-    //   searchCity() {
-    //     this.$emit('search', this.cityName);
-    //   },
-    //   liveSearch() {
-    //     this.$emit('liveSearch', this.cityName);
-    //   },
+    // components: {
+    //   FontAwesomeIcon,
     // },
     props: {
       cityName: String,
@@ -67,6 +44,9 @@
       };
     },
     methods: {
+      // currentLocation() {
+      //   this.$emit('currentLocation');
+      // },
       searchCity() {
         this.$emit('searchCity');
       },
@@ -91,40 +71,34 @@
   };
   </script>
   
-  <style scoped>
-/* Add styles for the CitySearch component */
-.form-control:focus {
-  box-shadow: none;
-}
+<style scoped>
+  .form-control:focus {
+    box-shadow: none;
+  }
 
-.form-control-underlined {
-  border-width: 0;
-  border-bottom-width: 1px;
-  border-radius: 0;
-  padding-left: 0;
-}
-.popup-results {
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  background-color: #fff;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  max-height: 400px;
-  overflow-y: auto;
-}
+  .form-control-underlined {
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-radius: 0;
+    padding-left: 0;
+  }
+  .popup-results {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    max-height: 400px;
+    overflow-y: auto;
+  }
 
-.popup-results div {
-  padding: 10px;
-  cursor: pointer;
-  border-bottom: 1px solid #ccc;
-}
+  .popup-results div:not(.header) {
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+  }
 
-.popup-results div:hover {
-  background-color: #f0f0f0;
-}
-
-.popup-results button {
-  margin-left: 10px;
-}
+  .popup-results div:not(.header):hover {
+    background-color: #f0f0f0;
+  }
 </style>
   

@@ -5,7 +5,6 @@
       <div class="card card-rounded p-2 bg-light">
         <h1 class="my-2 fw-bold">Weather App</h1>
       </div>
-      <!-- <CitySearch @search="handleSearch" @liveSearch="handleLiveSearch" /> -->
       <CitySearch
       :cityName="cityName"
       :searchResults="searchResults"
@@ -22,8 +21,6 @@
       <HourlyForecast v-if="forecast_hourly" :forecast_hourly="forecast_hourly" />
       <WeatherForecast v-if="forecast" :forecast="forecast" />
       <CurrentConditions v-if="forecast_hourly" :forecast_hourly="forecast_hourly" :forecast="forecast" />
-      <!-- <button class="btn btn-primary mt-3" @click="openPopup">Open Popup</button>
-      <WeatherPopup v-if="showPopup" @closePopup="closePopup" @addFavorite="addToFavorites" :favorites="favorites" /> -->
     </div>
   </section>
 </template>
@@ -35,8 +32,6 @@ import CityWeather from './components/CityWeather.vue';
 import HourlyForecast from './components/HourlyForecast.vue';
 import WeatherForecast from './components/WeatherForecast.vue';
 import CurrentConditions from './components/CurrentConditions.vue';
-// import FavoriteCities from './components/FavoriteCities.vue';
-// import WeatherPopup from './components/WeatherPopup.vue';
 
 export default {
   components: {
@@ -45,8 +40,6 @@ export default {
     HourlyForecast,
     WeatherForecast,
     CurrentConditions,
-    // FavoriteCities,
-    // WeatherPopup,
   },
   data() {
     return {
@@ -60,17 +53,24 @@ export default {
       backgroundImage: require('@/assets/images/day.jpg'),
     };
   },
-  // mounted() {
-  //   // Check if favorites exist in local storage
-  //   const storedFavorites = localStorage.getItem('favorites');
-  //   if (storedFavorites) {
-  //     this.favorites = JSON.parse(storedFavorites);
-  //   }
-
-  //   // Default to current location
-  //   this.fetchWeatherData();
-  // },
   methods: {
+    currentLocation(){
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            this.getWeatherByCoordinates(latitude, longitude);
+          },
+          (error) => {
+            console.error("Error getting current location:", error);
+            this.error = "Error getting current location";
+          }
+        );
+      } else {
+        this.error = "Geolocation is not supported by this browser.";
+      }
+    },
     searchCity() {
       this.fetchWeatherData();
       this.closePopup();
