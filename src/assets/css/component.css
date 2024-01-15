@@ -1,0 +1,71 @@
+ .form-control:focus {
+    box-shadow: none;
+  }
+
+  .form-control-underlined {
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-radius: 0;
+    padding-left: 0;
+  }
+  .popup-results {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .popup-results div:not(.header) {
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .popup-results div:not(.header):hover {
+    background-color: #f0f0f0;
+  }
+
+
+  /* City Waather Component */
+  
+  .weather-city{
+    border-radius: 16px;
+    box-shadow: none;
+    background: #fff;
+    transform-origin: center;
+    transition: all 0.4s ease-in-out;
+    overflow: hidden;
+  }
+
+  /* Hourly Forecast Component */
+
+  .slider-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .slider-item {
+    flex: 0 0 calc(15% - 10px); /* Adjust the percentage based on the number of cards per slide and the margin */
+    margin-right: 10px; /* Adjust the margin based on desired spacing */
+  }
+  
+  .custom-icon {
+    font-size: 4em;
+    /* color: red; */
+    /* Add any other styles you want */
+  }
+  
+  button:first-child {
+    left: 10px;
+  }
+  
+  button:last-child {
+    right: 10px;
+  }
