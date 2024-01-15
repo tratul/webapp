@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { floorOrCeil } from '../assets/js/main.js';
+import {floorOrCeil } from '../assets/js/component.js';
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
@@ -97,32 +97,5 @@ export default {
 </script>
 
 <style scoped>
-.slider-container {
-  position: relative;
-  overflow: hidden;
-}
-
-.slider {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
-
-.slider-item {
-  flex: 0 0 calc(15% - 10px); /* Adjust the percentage based on the number of cards per slide and the margin */
-  margin-right: 10px; /* Adjust the margin based on desired spacing */
-}
-
-.custom-icon {
-  font-size: 4em;
-  /* color: red; */
-  /* Add any other styles you want */
-}
-
-button:first-child {
-  left: 10px;
-}
-
-button:last-child {
-  right: 10px;
-}
+  @import '../assets/css/component.css';
 </style>

@@ -72,33 +72,6 @@
   </script>
   
 <style scoped>
-  .form-control:focus {
-    box-shadow: none;
-  }
-
-  .form-control-underlined {
-    border-width: 0;
-    border-bottom-width: 1px;
-    border-radius: 0;
-    padding-left: 0;
-  }
-  .popup-results {
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    background-color: #fff;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    max-height: 400px;
-    overflow-y: auto;
-  }
-
-  .popup-results div:not(.header) {
-    cursor: pointer;
-    border-bottom: 1px solid #ccc;
-  }
-
-  .popup-results div:not(.header):hover {
-    background-color: #f0f0f0;
-  }
+  @import '../assets/css/component.css';
 </style>
   

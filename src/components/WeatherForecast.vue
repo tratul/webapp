@@ -18,7 +18,7 @@
 </template>
   
   <script>
-  import {floorOrCeil, weatherDescription } from '../assets/js/main.js';
+  import {floorOrCeil, weatherDescription } from '../assets/js/component.js';
   export default {
     props: ['forecast'],
     data() {
@@ -28,11 +28,8 @@
     },
     methods: {
       dateOf(date) {
-        // Create a Date object from the date string
         const currentDate = new Date();
         const dateString = new Date(date);
-        // console.log(currentDate);
-        // console.log(dateString);
 
         if (currentDate.getDay() == dateString.getDay()) {
           return 'Today';
@@ -47,21 +44,7 @@
       getWeatherDescription(code){
         return weatherDescription(code);
       }
-    },
-    // computed: {
-    //     dateObject() {
-    //     // Create a Date object from the date string
-    //     return new Date(this.dateString);
-    //     },
-    //     dayOfWeekString() {
-    //     // Get the day of the week as a string
-    //     return this.daysOfWeek[this.dateObject.getDay()];
-    //     },
-    //     dayOfMonth() {
-    //     // Get the day of the month
-    //     return this.dateObject.getDate();
-    //     }
-    // }
+    }
   };
   
   </script>

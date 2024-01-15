@@ -45,7 +45,7 @@ export default {
     return {
       cityName: '',
       favorites: this.loadFavorites(),
-      currentWeather: null,
+      // currentWeather: null,
       forecast_hourly: null,
       forecast: null,
       showPopup: false,
@@ -54,23 +54,23 @@ export default {
     };
   },
   methods: {
-    currentLocation(){
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            this.getWeatherByCoordinates(latitude, longitude);
-          },
-          (error) => {
-            console.error("Error getting current location:", error);
-            this.error = "Error getting current location";
-          }
-        );
-      } else {
-        this.error = "Geolocation is not supported by this browser.";
-      }
-    },
+    // currentLocation(){
+    //   if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(
+    //       (position) => {
+    //         const latitude = position.coords.latitude;
+    //         const longitude = position.coords.longitude;
+    //         this.getWeatherByCoordinates(latitude, longitude);
+    //       },
+    //       (error) => {
+    //         console.error("Error getting current location:", error);
+    //         this.error = "Error getting current location";
+    //       }
+    //     );
+    //   } else {
+    //     this.error = "Geolocation is not supported by this browser.";
+    //   }
+    // },
     searchCity() {
       this.fetchWeatherData();
       this.closePopup();
@@ -180,24 +180,5 @@ export default {
 </script>
 
 <style>
-.webapp{
-  margin: 0;
-  padding: 48px 0;
-  font-family: "Figtree", sans-serif;
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-  /* background-image: linear-gradient(45deg, #7c9885, #b5b682); */
-  min-height: 100vh;
-  background-size: cover;
-  background-position: center;
-}
-#app {
-  text-align: center;
-  /* margin-top: 20px; */
-}
-
-h1 {
-  font-size: 2em;
-  margin-bottom: 20px;
-}
+  @import './assets/css/web-app.css';
 </style>
