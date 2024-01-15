@@ -1,3 +1,4 @@
+ /* City Search Component start */
  .form-control:focus {
     box-shadow: none;
   }
@@ -26,10 +27,9 @@
   .popup-results div:not(.header):hover {
     background-color: #f0f0f0;
   }
+/* City Search Component end */
 
-
-  /* City Waather Component */
-  
+/* City Waather Component start*/ 
   .weather-city{
     border-radius: 16px;
     box-shadow: none;
@@ -38,9 +38,9 @@
     transition: all 0.4s ease-in-out;
     overflow: hidden;
   }
+/* City Weather Component end */
 
-  /* Hourly Forecast Component */
-
+/* Hourly Forecast Component start*/
   .slider-container {
     position: relative;
     overflow: hidden;
@@ -59,7 +59,6 @@
   .custom-icon {
     font-size: 4em;
     /* color: red; */
-    /* Add any other styles you want */
   }
   
   button:first-child {
@@ -69,3 +68,4 @@
   button:last-child {
     right: 10px;
   }
+/* Hourly Forecast Component end */

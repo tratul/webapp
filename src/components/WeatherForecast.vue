@@ -5,7 +5,7 @@
       <h2>5-Day Forecast</h2>
     </div>
     <div class="row mt-3">
-      <div class="col-md-4" v-for="(time, index) in forecast.time" :key="index">
+      <div class="col-md-4 my-2" v-for="(time, index) in forecast.time" :key="index">
         <div class="card p-4">
           <p>{{ dateOf(time) }}</p>
           <p class="text-center">{{ getWeatherDescription(forecast.weather_code[index]) }}</p>

@@ -74,15 +74,15 @@ export default {
     searchCity() {
       this.fetchWeatherData();
       this.closePopup();
-    },
-    async liveSearch(city) {
-      try {
-        const response = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=5&language=en&format=json`);
-        this.searchResults = response.data.results;
-        this.showPopup = this.searchResults.length > 0;
-      } catch (error) {
-        console.error('Error fetching live search results:', error);
-      }
+      },
+      async liveSearch(city) { //key up search 
+        try {
+          const response = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=5&language=en&format=json`);
+          this.searchResults = response.data.results;
+          this.showPopup = this.searchResults.length > 0;
+        } catch (error) {
+          console.error('Error fetching live search results:', error);
+        }
     },
     selectCity(city) {
       this.cityName = city.name;
@@ -118,7 +118,6 @@ export default {
       this.showPopup = false;
     },
     fetchWeatherData() {
-      // if (this.cityName.trim() === '') return;
       const location = this.cityName.trim() !== '' ? this.cityName : 'current';
 
       axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${location}&count=1&language=en&format=json`)
@@ -127,6 +126,7 @@ export default {
           if (result) {
             const { latitude, longitude } = result;
 
+            // Hourly forecast functionality
             axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,weather_code,relative_humidity_2m,direct_radiation,pressure_msl,wind_gusts_10m,is_day&forecast_hours=24`)
               .then(weatherResponse_hourly => {
                 this.forecast_hourly = weatherResponse_hourly.data.hourly;
@@ -134,10 +134,11 @@ export default {
                   city: result.name,
                   country: result.country,
                   temperature: weatherResponse_hourly.data.hourly.temperature_2m[0], //  current temperature
-                  apparent_temperature: weatherResponse_hourly.data.hourly.apparent_temperature[0],
+                  apparent_temperature: weatherResponse_hourly.data.hourly.apparent_temperature[0], // feels like temperature
                   weather_code: weatherResponse_hourly.data.hourly.weather_code[0],   
                 };
-                // console.log(this.forecast_hourly )
+
+                // Day and night functionality to set background image
                 if(weatherResponse_hourly.data.hourly.is_day[0] == 0){
                   this.backgroundImage = require('@/assets/images/night.jpg');
                 }else{
@@ -147,14 +148,15 @@ export default {
               .catch(error => {
                 console.error('Error fetching weather data of hourly:', error);
               });
-
+            
+            // Daily weather forecast functionality
             axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=apparent_temperature_max,apparent_temperature_min,weather_code,sunrise,sunset&forecast_days=5`)
               .then(weatherResponse => {
                 this.forecast = weatherResponse.data.daily;
                 const currentWeatherOfDay = {
-                  ...this.currentWeather,
-                  apparent_temperature_max: weatherResponse.data.daily.apparent_temperature_max[0], 
-                  apparent_temperature_min: weatherResponse.data.daily.apparent_temperature_min[0], 
+                  ...this.currentWeather, // replicate to older value in new to avoid variables value lost
+                  apparent_temperature_max: weatherResponse.data.daily.apparent_temperature_max[0], //daily high temp
+                  apparent_temperature_min: weatherResponse.data.daily.apparent_temperature_min[0], //daily low temp
                 };
                 this.currentWeather = currentWeatherOfDay;
               })

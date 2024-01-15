@@ -2,7 +2,7 @@
 <template>
     <div class="p-1 bg-light rounded rounded-pill shadow-sm my-4">
       <div class="input-group">
-        <input id="cityInput" class="form-control border-0 bg-light" placeholder="Please Inter The City Name" v-model="inputValue" @input="liveSearch" />
+        <input id="cityInput" class="form-control border-0 bg-light" placeholder="Please Enter The City Name" v-model="inputValue" @input="liveSearch" />
         <!-- <button class="bg-transparent border-0 me-2" @click="currentLocation()">
           <font-awesome-icon :icon="['fas', 'fa-location-dot']" />
         </button> -->
