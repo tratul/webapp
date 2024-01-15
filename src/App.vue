@@ -3,7 +3,12 @@
   <section :style="{ backgroundImage: `url(${backgroundImage})`}" class="webapp">
     <div id="app" class="container mt-4">
       <div class="card card-rounded p-2 bg-light">
-        <h1 class="my-2 fw-bold">Weather App</h1>
+        <h1 class="my-2 fw-bold">
+          Weather App 
+          <button class="bg-transparent border-0 ms-3" @click="refreshPage">
+            <font-awesome-icon class="fs-1" :icon="['fas', 'fa-refresh']" />
+          </button>
+        </h1>
       </div>
       <CitySearch
       :cityName="cityName"
@@ -32,6 +37,10 @@ import CityWeather from './components/CityWeather.vue';
 import HourlyForecast from './components/HourlyForecast.vue';
 import WeatherForecast from './components/WeatherForecast.vue';
 import CurrentConditions from './components/CurrentConditions.vue';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faRefresh } from '@fortawesome/free-solid-svg-icons';
+library.add(faRefresh)
 
 export default {
   components: {
@@ -40,6 +49,7 @@ export default {
     HourlyForecast,
     WeatherForecast,
     CurrentConditions,
+    FontAwesomeIcon,
   },
   data() {
     return {
@@ -71,6 +81,9 @@ export default {
     //     this.error = "Geolocation is not supported by this browser.";
     //   }
     // },
+    refreshPage() {
+      window.location.reload();
+    },
     searchCity() {
       this.fetchWeatherData();
       this.closePopup();
